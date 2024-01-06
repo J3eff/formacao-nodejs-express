@@ -1,6 +1,9 @@
 import express from 'express';
+import conectDataBase from './config/dbConnect.js'
 
-const PORT = 3000;
+const connect = await conectDataBase();
+connect.on("error", (erro) => { console.error("Erro de conexão: ", erro); });
+connect.once("open", () => { console.log("Conexão com o banco feita com sucesso!") })
 
 const app = express();
 app.use(express.json()); // Middleware
@@ -64,5 +67,6 @@ app.delete('/livros/:id', (req, res) => {
     else
         res.status(404).send('Livro não encontrado')
 })
+
 
 export default app;
