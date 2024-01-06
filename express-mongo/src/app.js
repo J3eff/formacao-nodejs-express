@@ -8,16 +8,6 @@ connect.once("open", () => { console.log("Conexão com o banco feita com sucesso
 const app = express();
 app.use(express.json()); // Middleware
 
-const livros = [
-    {
-        id: 1,
-        titulo: "O Senhor do Anéis"
-    },
-    {
-        id: 2,
-        titulo: "O Hobbit"
-    }
-]
 
 function buscaLivro(id) {
     return livros.findIndex(livro => livro.id === Number(id));
