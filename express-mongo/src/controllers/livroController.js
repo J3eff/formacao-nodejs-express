@@ -42,7 +42,7 @@ class LivroController {
             res.status(500).json({ message: `${error.message} - falha na atualização` })
         }
     }
-
+    
     static async excluirLivro(req, res) {
         try {
             const id = req.params.id;
