@@ -9,33 +9,6 @@ connect.once("open", () => { console.log("Conexão com o banco feita com sucesso
 const app = express();
 routes(app);
 
-
-app.get('/livros/:id', (req, res) => {
-    const index = buscaLivro(req.params.id)
-
-    if (index != -1)
-        res.status(200).json(livros[index]);
-    else
-        res.status(404).send('Livro não encontrado.');
-})
-
-app.post('/livros', (req, res) => {
-    livros.push(req.body);
-    res.status(201).send('Livro cadastrado com sucesso');
-})
-
-app.put('/livros/:id', (req, res) => {
-    const index = buscaLivro(req.params.id);
-
-    if (index != -1) {
-        livros[index].titulo = req.body.titulo;
-
-        res.status(200).json(livros);
-    } else
-        res.status(404).send('Livro não encontrado.');
-
-})
-
 app.delete('/livros/:id', (req, res) => {
     const index = buscaLivro(req.params.id);
 
