@@ -3,10 +3,10 @@ import { autor } from "../models/Autor.js";
 class AutorController {
   static async listarAutores(req, res) {
     try {
-      const autores = await autor.find({});
-      res.status(200).json(autores);
+      const autoresResultado = await autor.find({});
+      res.status(200).json(autoresResultado);
     } catch (error) {
-      res.status(500).json({ message: `${error.message} - falha na requisição` });
+      res.status(500).json({ message: "Erro interno no servidor" });
     }
 
   }
