@@ -2,28 +2,28 @@ import livro from "../models/Livro.js";
 import { autor } from "../models/Autor.js";
 
 class LivroController {
-  static async listarLivros(req, res) {
+  static listarLivros = async (req, res, next) => {
     try {
       const livros = await livro.find({});
       res.status(200).json(livros);
     } catch (error) {
-      res.status(500).json({ message: `${error.message} - falha na requisição` });
+      next(error);
     }
 
-  }
+  };
 
-  static async listarLivroPorId(req, res) {
+  static listarLivroPorId = async (req, res, next) => {
     try {
       const id = req.params.id;
       const livroEncontrado = await livro.findById(id);
       res.status(200).json(livroEncontrado);
 
     } catch (error) {
-      res.status(500).json({ message: `${error.message} - falha na requisição do livro` });
+      next(error);
     }
-  }
+  };
 
-  static async cadastrarLivro(req, res) {
+  static cadastrarLivro = async (req, res, next) => {
     const novoLivro = req.body;
     try {
       const autorEncontrado = await autor.findById(novoLivro.autor);
@@ -32,39 +32,39 @@ class LivroController {
       res.status(201).json({ message: "Criado com sucesso", livro: livroCriado });
 
     } catch (error) {
-      res.status(500).json({ message: `${error.message} - falha ao cadastrar livro` });
+      next(error);
     }
-  }
+  };
 
-  static async atualizarLivro(req, res) {
+  static atualizarLivro = async (req, res, next) => {
     try {
       const id = req.params.id;
       await livro.findByIdAndUpdate(id, req.body);
       res.status(200).json({ message: "Livro atualizado!" });
     } catch (error) {
-      res.status(500).json({ message: `${error.message} - falha na atualização` });
+      next(error);
     }
-  }
+  };
 
-  static async excluirLivro(req, res) {
+  static excluirLivro = async (req, res, next) => {
     try {
       const id = req.params.id;
       await livro.findByIdAndDelete(id);
       res.status(200).json({ message: "Livro excluido com sucesso!" });
     } catch (error) {
-      res.status(500).json({ message: `${error.message} - falha na exclusão` });
+      next(error);
     }
-  }
+  };
 
-  static async listarLivrosPorEditora(req, res) {
+  static listarLivrosPorEditora = async (req, res, next) => {
     const editora = req.query.editora;
     try {
       const livrosPorEditora = await livro.find({ editora: editora });
       res.status(200).json(livrosPorEditora);
     } catch (error) {
-      res.status(500).json({ message: `${error.message} - falha na busca` });
+      next(error);
     }
-  }
+  };
 
 }
 
