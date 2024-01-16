@@ -3,7 +3,7 @@ import livros from "../models/Livro.js";
 class LivroController {
   static listarLivros = async (req, res, next) => {
     try {
-      const livrosEncontrados = await livros.find({});
+      const livrosEncontrados = await livros.find().populate("autor").exec();
       res.status(200).json(livrosEncontrados);
     } catch (error) {
       next(error);
