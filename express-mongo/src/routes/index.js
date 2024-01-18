@@ -6,7 +6,8 @@ const routes = (app) => {
   app.route("/").get((req, res) => res.status(200).send("Curso de Node.js"));
 
   // Middleware
-  app.use(express.json(),
+  app.use(
+    express.json(),
     livros,
     autores
   );

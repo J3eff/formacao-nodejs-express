@@ -1,4 +1,5 @@
 import livros from "../models/Livro.js";
+import NaoEncontrado from "../erros/NaoEncontrado.js";
 
 class LivroController {
   static listarLivros = async (req, res, next) => {
@@ -13,8 +14,14 @@ class LivroController {
   static listarLivroPorId = async (req, res, next) => {
     try {
       const id = req.params.id;
+
       const livroEncontrado = await livros.findById(id);
-      res.status(200).json(livroEncontrado);
+
+      if (livroEncontrado != null)
+        res.status(200).json(livroEncontrado);
+      else
+        next(new NaoEncontrado("Id do Livro não localizado."));
+
     } catch (error) {
       next(error);
     }
@@ -33,8 +40,14 @@ class LivroController {
   static atualizarLivro = async (req, res, next) => {
     try {
       const id = req.params.id;
-      await livros.findByIdAndUpdate(id, req.body);
-      res.status(200).json({ message: "Livro atualizado!" });
+
+      const livroEncontrado = await livros.findByIdAndUpdate(id, req.body);
+
+      if (livroEncontrado != null)
+        res.status(200).json({ message: "Livro atualizado!" });
+      else
+        next(new NaoEncontrado("Id do Livro não localizado."));
+
     } catch (error) {
       next(error);
     }
@@ -43,8 +56,14 @@ class LivroController {
   static excluirLivro = async (req, res, next) => {
     try {
       const id = req.params.id;
-      await livros.findByIdAndDelete(id);
-      res.status(200).json({ message: "Livro excluido com sucesso!" });
+
+      var livroExcluido = await livros.findByIdAndDelete(id);
+
+      if (livroExcluido != null)
+        res.status(200).json({ message: "Livro excluido com sucesso!" });
+      else
+        next(new NaoEncontrado("Id do Livro não localizado."));
+
     } catch (error) {
       next(error);
     }
@@ -54,7 +73,12 @@ class LivroController {
     const editora = req.query.editora;
     try {
       const livrosPorEditora = await livros.find({ editora: editora });
-      res.status(200).json(livrosPorEditora);
+
+      if (livrosPorEditora != null)
+        res.status(200).json(livrosPorEditora);
+      else
+        next(new NaoEncontrado("Id do Livro não localizado."));
+
     } catch (error) {
       next(error);
     }
